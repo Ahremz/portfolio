@@ -30,6 +30,7 @@ body {
   object-fit: cover;
   border: 5px solid #ffffff;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding-top:10px;
 }
 
 .text-block {
