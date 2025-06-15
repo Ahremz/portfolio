@@ -15,22 +15,22 @@ body {
   align-items: center;
   gap: 2rem;
   background-image: url('Pink Modern Watercolor Name Tag.png');
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   text-align: left;
   padding: 4rem 2rem;
   border-bottom: 4px solid #b76e79;
-  height:200px;
+  height:300px;
 }
 
 .profile-pic {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   border-radius: 50%;
   object-fit: cover;
   border: 5px solid #ffffff;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  padding-top:10px;
 }
 
 .text-block {
