@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="favicon.ico"/>
+  <style>
+    .toggle-content {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .pink-button {
+      background-color: pink;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .image-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: zoom-in;
+    }
+
+    .image-container img.zoomed {
+      transform: scale(2.5);
+      z-index: 10;
+      position: relative;
+      cursor: zoom-out;
+    }
+
+    .zoom-animation {
+      transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="main-heading">
+      <img src="Espina.jpg" alt="Rudemy Espina" class="profile-pic"/>
+      <div class="text-block">
+        <h1>Rudemy Espina</h1>
+        <p class="subtitle"> A Web Developer </p>
+          
+      </div>
+    </div>
+  </header>
+
+  <!-- About Me -->
+  <section id="about">
+    <h2>About Me</h2>
+    <button class="pink-button" onclick="toggleSection('about-content')">Show About</button>
+    <div id="about-content" class="toggle-content">
+      <p>Hello! I'm a passionate beginner web developer with a growing skill set in HTML, CSS, and JavaScript. I'm currently focused on mastering the fundamentals of front-end development and exploring backend technologies to become a well-rounded programmer.
+      I created this portfolio to showcase my learning journey, projects, and problem-solving abilities. My goal is to apply for a programming role where I can contribute to meaningful projects, gain real-world experience, and grow alongside a dedicated team.
+      I believe that strong foundations, consistent learning, and teamwork are the keys to success in tech—and I'm excited to bring those values into a professional environment.</p>
+    </div>
+  </section>
+
+  <!-- Personal Information -->
+  <section id="Personal-information">
+    <h2>My Personal Information</h2>
+    <button class="pink-button" onclick="toggleSection('personal-content')">Show Info</button>
+    <div id="personal-content" class="toggle-content">
+      <div class="Basic-Details">
+        <p><strong>Address:</strong> Bajumpandan Dumaguete City Negros Oriental Philippines</p>
+        <p><strong>Birth Date:</strong> February 19,1993</p>
+        <p><strong>Age:</strong> 32</p>
+        <p><strong>Birth Place:</strong> Sibulan, Negros Oriental</p>
+        <p><strong>Civil Status:</strong> Married</p>
+        <p><strong>Religion:</strong> Catholic</p>
+        <p><strong>Gender:</strong> Female</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Background -->
+  <section id="Educational-Background">
+    <h2>My Educational Attainment</h2>
+    <button class="pink-button" onclick="toggleSection('education-content')">Show Education</button>
+    <div id="education-content" class="toggle-content">
+      <div class="Education">
+        <h3>Elementary</h3>
+        <p>South City Elementary School</p>
+        <h3>High School</h3>
+        <p>Junob National High School</p>
+        <h3>College</h3>
+        <p>Negros Oriental State University - AB GEN </p>
+        <p>Asian College of Science and Technology - IT</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Experience -->
+  <section id="Work-experience">
+    <h2>My Work Experience & Skills</h2>
+    <button class="pink-button" onclick="toggleSection('work-content')">Show Experience</button>
+    <div id="work-content" class="toggle-content">
+      <div class="Work-Experience">
+        <p>Qualfon Dumaguete - CSR</p>
+        <p><strong>SKILLS:</strong> Dressmaker</p>
+        <p>Turning thrifted clothes into trendy pieces.</p>
+        <p><strong>PROGRAMING:</strong> Web Design</p>
+        <p><strong>EDITING:</strong>Vlog and Animation</p>
+      </div>
+    </div>
+  </section>
+
+<section id="cv-section">
+  <h2>My CV</h2>
+  <button class="pink-button" onclick="viewCV()">View CV</button>
+  <button class="pink-button" onclick="downloadCV()">Download CV</button>
+</section>
+
+<script>
+  function viewCV() {
+    window.open('CV.pdf', '_blank');
+  }
+
+  function downloadCV() {
+    const link = document.createElement('a');
+    link.href = 'CV.pdf';
+    link.download = 'CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <button class="pink-button" onclick="showEmail()">Show Email</button>
+    <p id="email" style="display:none;">rsespina.student@asiancollege.edu.ph</p>
+
+    <button class="pink-button" onclick="showContact()">Show Contact Number</button>
+    <p id="contact-number" style="display:none;">+639615250287</p>
+  </section>
+
+  <!-- Certificate Section -->
+  <section id="certificate">
+    <h2>My Certificate</h2>
+    <button class="pink-button" onclick="toggleSection('certificate-content')">Show Certificate</button>
+    <div id="certificate-content" class="toggle-content">
+      <img src="certificate rm 001.jpg" alt="My Certificate" style="max-width: 100%; margin-top: 15px; border: 2px solid #ccc; border-radius: 8px;"/>
+    </div>
+  </section>
+
+  <!-- Extra Images Section -->
+  <section id="extra-image">
+    <h2>More About Me</h2>
+    <div class="image-container">
+      <img src="12345.jpg" alt="Me 1" class="zoom-animation">
+      <img src="3215.jpg" alt="Me 2" class="zoom-animation">
+      <img src="acgirls.jpg" alt="Me 3" class="zoom-animation">
+      <img src="My small fam.jpg" alt="Me 4" class="zoom-animation">
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 My Portfolio</p>
+  </footer>
+
+  <script>
+    function toggleSection(id) {
+      const content = document.getElementById(id);
+      content.style.display = content.style.display === "none" || content.style.display === "" ? "block" : "none";
+    }
+
+    function showEmail() {
+      const email = document.getElementById("email");
+      email.style.display = email.style.display === "none" ? "block" : "none";
+    }
+
+    function showContact() {
+      const contact = document.getElementById("contact-number");
+      contact.style.display = contact.style.display === "none" ? "block" : "none";
+    }
+
+    // Double-click to zoom
+    document.addEventListener("DOMContentLoaded", function () {
+      const images = document.querySelectorAll(".image-container img");
+
+      images.forEach((img) => {
+        img.addEventListener("dblclick", function () {
+          img.classList.toggle("zoomed");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

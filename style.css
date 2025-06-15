@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'cursive', sans-serif;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  color: #333;
+}
+
+/* Main Heading Section */
+.main-heading {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-image: url('Pink Modern Watercolor Name Tag.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: left;
+  padding: 4rem 2rem;
+  border-bottom: 4px solid #b76e79;
+}
+
+.profile-pic {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.text-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-heading h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 5.0rem;
+  margin: 0;
+  color: #330099;
+}
+
+.subtitle {
+  font-size: 2.0rem;
+  margin-top: 0.1rem;
+  color: #ab5df3;
+}
+
+/* Header */
+header {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Navigation */
+nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #6a5acd;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #483d8b;
+}
+
+/* Section */
+section {
+  padding: 100px;
+  max-width: 2000px;
+  margin: auto;
+  background-color: rgba(244, 215, 255, 0.8);
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Footer */
+footer {
+  text-align: left;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+/* Image Container */
+#extra-image {
+  text-align: center;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.image-container img {
+  width: 100%;
+  max-width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: zoom-in;
+}
+
+.image-container img.zoomed {
+  transform: scale(2.5);
+  position: relative;
+  z-index: 10;
+  cursor: zoom-out;
+}
+
+.image-container img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .main-heading {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .text-block,
+  .subtitle {
+    text-align: center;
+  }
+}
