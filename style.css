@@ -128,6 +128,14 @@ footer {
   transform: scale(1.05);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
+#login-section input {
+  display: block;
+  margin: 0.5rem 0;
+  padding: 10px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
 /* Responsive Design */
 @media (max-width: 600px) {
