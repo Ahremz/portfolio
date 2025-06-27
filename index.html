@@ -6,6 +6,37 @@
   <title>My Portfolio</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="icon" href="favicon.ico"/>
+   </section>
+<!-- Login Form -->
+<section id="login-section">
+  <h2>Login</h2>
+  <div id="login-form">
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button class="pink-button" onclick="login()">Log In</button>
+    <p id="login-error" style="color: red; display: none;">Invalid credentials. Try again.</p>
+  </div>
+  <div id="logout-area" style="display: none;">
+    <p>Welcome, <strong>Espinaru1993</strong>!</p>
+    <button class="pink-button" onclick="logout()">Log Out</button>
+  </div>
+</section>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+<script>
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
+
   <style>
     .toggle-content {
       display: none;
@@ -174,21 +205,7 @@
       <img src="acgirls.jpg" alt="Me 3" class="zoom-animation">
       <img src="My small fam.jpg" alt="Me 4" class="zoom-animation">
     </div>
-  </section>
-<!-- Login Form -->
-<section id="login-section">
-  <h2>Login</h2>
-  <div id="login-form">
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button class="pink-button" onclick="login()">Log In</button>
-    <p id="login-error" style="color: red; display: none;">Invalid credentials. Try again.</p>
-  </div>
-  <div id="logout-area" style="display: none;">
-    <p>Welcome, <strong>Espinaru1993</strong>!</p>
-    <button class="pink-button" onclick="logout()">Log Out</button>
-  </div>
-</section>
+ 
 
   <footer>
     <p>© 2025 My Portfolio</p>
