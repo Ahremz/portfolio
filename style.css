@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 body {
@@ -21,7 +22,7 @@ body {
   text-align: left;
   padding: 4rem 2rem;
   border-bottom: 4px solid #b76e79;
-  height:300px;
+  height: 300px;
 }
 
 .profile-pic {
@@ -93,22 +94,95 @@ footer {
   color: #666;
 }
 
+/* Toggle Content */
+.toggle-content {
+  display: none;
+  margin-top: 10px;
+}
+
+/* Pink Button */
+.pink-button {
+  background-color: pink;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Authentication Styles */
+.auth-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: pink;
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.auth-toggle a {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+
+.validation-error {
+  border-color: red !important;
+}
+
 /* Image Container */
 #extra-image {
   text-align: center;
 }
 
 .image-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
-  margin-top: 10px;
-  justify-content: center;
+  margin-top: 20px;
 }
 
 .image-container img {
   width: 100%;
-  max-width: 200px;
   height: 200px;
   object-fit: cover;
   border-radius: 10px;
@@ -119,15 +193,21 @@ footer {
 
 .image-container img.zoomed {
   transform: scale(2.5);
-  position: relative;
   z-index: 10;
+  position: relative;
   cursor: zoom-out;
+}
+
+.zoom-animation {
+  transition: transform 0.3s ease-in-out;
 }
 
 .image-container img:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
+
+/* Login Section Input */
 #login-section input {
   display: block;
   margin: 0.5rem 0;
@@ -148,5 +228,22 @@ footer {
   .text-block,
   .subtitle {
     text-align: center;
+  }
+
+  section {
+    padding: 20px;
+  }
+
+  .profile-pic {
+    width: 200px;
+    height: 200px;
+  }
+
+  .main-heading h1 {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
   }
 }
