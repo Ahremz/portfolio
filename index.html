@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,22 +7,6 @@
   <title>My Portfolio</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="icon" href="favicon.ico"/>
-
-  <!-- Firebase Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-  </script>
 
   <style>
     .toggle-content {
@@ -37,6 +22,53 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
+    }
+    .auth-container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .auth-form input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .auth-form input:focus {
+      outline: none;
+      border-color: pink;
+    }
+    .auth-toggle {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .auth-toggle a {
+      color: #007bff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+    .success-message {
+      color: green;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+    .validation-error {
+      border-color: red !important;
     }
     .image-container {
       display: grid;
@@ -65,89 +97,376 @@
   </style>
 </head>
 <body>
-  <section id="login-section">
-    <h2>Login</h2>
-    <div id="login-form">
-      <input type="email" id="login-email" placeholder="Email" />
-      <input type="password" id="login-password" placeholder="Password" />
-      <button class="pink-button" onclick="firebaseLogin()">Log In</button>
-      <p id="login-message" style="color: red; display: none;">Invalid credentials. Try again.</p>
-    </div>
-    <div id="logout-section" style="display: none;">
-      <p>Welcome!</p>
-      <button class="pink-button" onclick="firebaseLogout()">Log Out</button>
-    </div>
-  </section>
-
-  <header>
-    <div class="main-heading">
-      <img src="Espina.jpg" alt="Rudemy Espina" class="profile-pic"/>
-      <div class="text-block">
-        <h1>Rudemy Espina</h1>
-        <p class="subtitle"> A Web Developer </p>
+  <section id="auth-section">
+    <div class="auth-container">
+      <!-- Login Form -->
+      <div id="login-form">
+        <h2>Login</h2>
+        <form class="auth-form" onsubmit="return handleLogin(event)">
+          <input type="text" id="login-username" placeholder="Username" required />
+          <input type="password" id="login-password" placeholder="Password" required />
+          <button type="submit" class="pink-button">Log In</button>
+        </form>
+        <p id="login-message" class="error-message"></p>
+        <div class="auth-toggle">
+          <span>Don't have an account? </span>
+          <a onclick="showRegisterForm()">Register here</a>
+        </div>
       </div>
-    </div>
-  </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <button class="pink-button" onclick="toggleSection('about-content')">Show About</button>
-    <div id="about-content" class="toggle-content">
-      <p>Hello! I'm a passionate beginner web developer...</p>
-    </div>
+      <!-- Registration Form -->
+      <div id="register-form" style="display: none;">
+        <h2>Register</h2>
+        <form class="auth-form" onsubmit="return handleRegister(event)">
+          <input type="text" id="register-username" placeholder="Username" required />
+          <input type="password" id="register-password" placeholder="Password (min 4 characters)" required minlength="4" />
+          <input type="password" id="register-confirm-password" placeholder="Confirm Password" required />
+          <button type="submit" class="pink-button">Register</button>
+        </form>
+        <p id="register-message" class="error-message"></p>
+        <p id="register-success" class="success-message"></p>
+        <div class="auth-toggle">
+          <span>Already have an account? </span>
+          <a onclick="showLoginForm()">Login here</a>
+        </div>
+      </div>
+
+      </div>
   </section>
 
-  <!-- Other sections here... (omitted for brevity) -->
+  <!-- Logged In Section - Moved to top of portfolio -->
+  <div id="logout-section" style="display: none; text-align: center; padding: 20px; background-color: #f0f8ff; border-bottom: 2px solid #ddd;">
+    <p>Welcome! You are logged in.</p>
+    <button class="pink-button" onclick="handleLogout()">Log Out</button>
+  </div>
 
-  <footer>
-    <p>© 2025 My Portfolio</p>
-  </footer>
+  <!-- Portfolio Content - Hidden until logged in -->
+  <div id="portfolio-content" style="display: none;">
+    <header>
+      <div class="main-heading">
+        <img src="Espina.jpg" alt="Rudemy Espina" class="profile-pic"/>
+        <div class="text-block">
+          <h1>Rudemy Espina</h1>
+          <p class="subtitle"> A Web Developer </p>
+        </div>
+      </div>
+    </header>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <button class="pink-button" onclick="toggleSection('about-content')">Show About</button>
+      <div id="about-content" class="toggle-content">
+        <p>Hello! I'm a passionate beginner web developer...</p>
+      </div>
+    </section>
+
+    <section id="family">
+      <h2>Family Background</h2>
+      <button class="pink-button" onclick="toggleSection('family-content')">Show Family Tree</button>
+      <div id="family-content" class="toggle-content">
+        <div style="text-align: center; font-family: Arial, sans-serif;">
+          <h3>Espina Family Tree</h3>
+          
+          <!-- Grandparents Level -->
+          <div style="margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 10px;">
+            <h4>Grandparents</h4>
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+              <div style="background-color: #e6f3ff; padding: 10px; border-radius: 8px; margin: 5px;">
+                <strong>Paternal Grandfather</strong><br>
+                [Grandfather's Name]
+              </div>
+              <div style="background-color: #e6f3ff; padding: 10px; border-radius: 8px; margin: 5px;">
+                <strong>Paternal Grandmother</strong><br>
+                [Grandmother's Name]
+              </div>
+              <div style="background-color: #ffe6f3; padding: 10px; border-radius: 8px; margin: 5px;">
+                <strong>Maternal Grandfather</strong><br>
+                [Grandfather's Name]
+              </div>
+              <div style="background-color: #ffe6f3; padding: 10px; border-radius: 8px; margin: 5px;">
+                <strong>Maternal Grandmother</strong><br>
+                [Grandmother's Name]
+              </div>
+            </div>
+          </div>
+
+          <!-- Parents Level -->
+          <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 10px;">
+            <h4>Parents</h4>
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+              <div style="background-color: #d4edda; padding: 15px; border-radius: 8px; margin: 5px;">
+                <strong>Father</strong><br>
+                [Father's Name] Espina
+              </div>
+              <div style="background-color: #d4edda; padding: 15px; border-radius: 8px; margin: 5px;">
+                <strong>Mother</strong><br>
+                [Mother's Name] Espina
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Generation -->
+          <div style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border-radius: 10px;">
+            <h4>Current Generation</h4>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+              <div style="background-color: #ffeaa7; padding: 15px; border-radius: 8px; margin: 5px; border: 2px solid #fdcb6e;">
+                <strong>Rudemy Espina</strong><br>
+                Web Developer
+              </div>
+              <div style="background-color: #ddd6fe; padding: 15px; border-radius: 8px; margin: 5px;">
+                <strong>Sibling 1</strong><br>
+                [Sibling's Name] (if applicable)
+              </div>
+              <div style="background-color: #ddd6fe; padding: 15px; border-radius: 8px; margin: 5px;">
+                <strong>Sibling 2</strong><br>
+                [Sibling's Name] (if applicable)
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 10px;">
+            <h4>Family Heritage</h4>
+            <p>The Espina family has a rich heritage rooted in [Location/Country]. Our family values include:</p>
+            <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+              <li>Strong work ethic and dedication</li>
+              <li>Education and continuous learning</li>
+              <li>Family unity and support</li>
+              <li>Community involvement and service</li>
+              <li>Cultural traditions and values</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <button class="pink-button" onclick="toggleSection('skills-content')">Show Skills</button>
+      <div id="skills-content" class="toggle-content">
+        <p>My technical skills include:</p>
+        <ul>
+          <li>HTML5 & CSS3</li>
+          <li>JavaScript</li>
+          <li>Responsive Web Design</li>
+          <li>Basic Web Development</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <button class="pink-button" onclick="toggleSection('projects-content')">Show Projects</button>
+      <div id="projects-content" class="toggle-content">
+        <p>Here are some of my recent projects:</p>
+        <div class="image-container">
+          <img src="https://via.placeholder.com/300x200" alt="Project 1" />
+          <img src="https://via.placeholder.com/300x200" alt="Project 2" />
+          <img src="https://via.placeholder.com/300x200" alt="Project 3" />
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <button class="pink-button" onclick="toggleSection('contact-content')">Show Contact</button>
+      <div id="contact-content" class="toggle-content">
+        <p>Feel free to reach out to me:</p>
+        <button class="pink-button" onclick="showEmail()">Show Email</button>
+        <button class="pink-button" onclick="showContact()">Show Phone</button>
+        <p id="email" style="display: none;">Email: rudemy.espina@example.com</p>
+        <p id="contact-number" style="display: none;">Phone: +1 (555) 123-4567</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2025 My Portfolio</p>
+    </footer>
+  </div>
 
   <script>
+    // Predefined user credentials
+    const validUser = { username: 'demy30', password: '2007' };
+    let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [validUser];
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
     function toggleSection(id) {
       const content = document.getElementById(id);
       content.style.display = content.style.display === "none" || content.style.display === "" ? "block" : "none";
     }
+    
     function showEmail() {
       const email = document.getElementById("email");
       email.style.display = email.style.display === "none" ? "block" : "none";
     }
+    
     function showContact() {
       const contact = document.getElementById("contact-number");
       contact.style.display = contact.style.display === "none" ? "block" : "none";
     }
-    function firebaseLogin() {
-      const email = document.getElementById('login-email').value;
+
+    function showLoginForm() {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('register-form').style.display = 'none';
+      clearMessages();
+    }
+
+    function showRegisterForm() {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+      clearMessages();
+    }
+
+    function clearMessages() {
+      document.getElementById('login-message').style.display = 'none';
+      document.getElementById('register-message').style.display = 'none';
+      document.getElementById('register-success').style.display = 'none';
+    }
+
+    function validateUsername(username) {
+      return username.length >= 3 && /^[a-zA-Z0-9_]+$/.test(username);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 4;
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
       const password = document.getElementById('login-password').value;
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          document.getElementById('login-form').style.display = 'none';
-          document.getElementById('logout-section').style.display = 'block';
-          document.getElementById('login-message').style.display = 'none';
-        })
-        .catch((error) => {
-          document.getElementById('login-message').innerText = "Login Failed: " + error.message;
-          document.getElementById('login-message').style.display = 'block';
-        });
-    }
-    function firebaseLogout() {
-      firebase.auth().signOut().then(() => {
-        document.getElementById('login-form').style.display = 'block';
-        document.getElementById('logout-section').style.display = 'none';
-      });
-    }
-    firebase.auth().onAuthStateChanged((user) => {
+      const messageEl = document.getElementById('login-message');
+
+      // Clear previous errors
+      messageEl.style.display = 'none';
+      document.getElementById('login-username').classList.remove('validation-error');
+      document.getElementById('login-password').classList.remove('validation-error');
+
+      // Validate inputs
+      if (!validateUsername(username)) {
+        messageEl.textContent = 'Username must be at least 3 characters and contain only letters, numbers, and underscores.';
+        messageEl.style.display = 'block';
+        document.getElementById('login-username').classList.add('validation-error');
+        return false;
+      }
+
+      if (!validatePassword(password)) {
+        messageEl.textContent = 'Password must be at least 4 characters long.';
+        messageEl.style.display = 'block';
+        document.getElementById('login-password').classList.add('validation-error');
+        return false;
+      }
+
+      // Check if user exists and password matches
+      const user = registeredUsers.find(u => u.username === username && u.password === password);
       if (user) {
-        document.getElementById('login-form').style.display = 'none';
+        currentUser = { username: user.username };
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        updateAuthState();
+        clearForm('login');
+      } else {
+        messageEl.textContent = 'Invalid username or password.';
+        messageEl.style.display = 'block';
+      }
+
+      return false;
+    }
+
+    function handleRegister(event) {
+      event.preventDefault();
+      const username = document.getElementById('register-username').value.trim();
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('register-confirm-password').value;
+      const messageEl = document.getElementById('register-message');
+      const successEl = document.getElementById('register-success');
+
+      // Clear previous messages
+      messageEl.style.display = 'none';
+      successEl.style.display = 'none';
+      document.getElementById('register-username').classList.remove('validation-error');
+      document.getElementById('register-password').classList.remove('validation-error');
+      document.getElementById('register-confirm-password').classList.remove('validation-error');
+
+      // Validate inputs
+      if (!validateUsername(username)) {
+        messageEl.textContent = 'Username must be at least 3 characters and contain only letters, numbers, and underscores.';
+        messageEl.style.display = 'block';
+        document.getElementById('register-username').classList.add('validation-error');
+        return false;
+      }
+
+      if (!validatePassword(password)) {
+        messageEl.textContent = 'Password must be at least 4 characters long.';
+        messageEl.style.display = 'block';
+        document.getElementById('register-password').classList.add('validation-error');
+        return false;
+      }
+
+      if (password !== confirmPassword) {
+        messageEl.textContent = 'Passwords do not match.';
+        messageEl.style.display = 'block';
+        document.getElementById('register-confirm-password').classList.add('validation-error');
+        return false;
+      }
+
+      // Check if user already exists
+      if (registeredUsers.some(u => u.username === username)) {
+        messageEl.textContent = 'An account with this username already exists.';
+        messageEl.style.display = 'block';
+        return false;
+      }
+
+      // Register user
+      registeredUsers.push({ username, password });
+      localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+      
+      successEl.textContent = 'Registration successful! Please login with your credentials.';
+      successEl.style.display = 'block';
+      clearForm('register');
+      
+      // Auto switch to login form after 2 seconds
+      setTimeout(() => {
+        showLoginForm();
+      }, 2000);
+
+      return false;
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('currentUser');
+      updateAuthState();
+    }
+
+    function clearForm(type) {
+      if (type === 'login') {
+        document.getElementById('login-username').value = '';
+        document.getElementById('login-password').value = '';
+      } else if (type === 'register') {
+        document.getElementById('register-username').value = '';
+        document.getElementById('register-password').value = '';
+        document.getElementById('register-confirm-password').value = '';
+      }
+    }
+
+    function updateAuthState() {
+      if (currentUser) {
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('portfolio-content').style.display = 'block';
         document.getElementById('logout-section').style.display = 'block';
       } else {
+        document.getElementById('auth-section').style.display = 'block';
+        document.getElementById('portfolio-content').style.display = 'none';
         document.getElementById('login-form').style.display = 'block';
+        document.getElementById('register-form').style.display = 'none';
         document.getElementById('logout-section').style.display = 'none';
       }
-    });
+    }
 
-    // Image zooming
-    document.addEventListener("DOMContentLoaded", function () {
+    // Initialize auth state on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateAuthState();
+
+      // Image zooming
       const images = document.querySelectorAll(".image-container img");
       images.forEach((img) => {
         img.addEventListener("dblclick", function () {
